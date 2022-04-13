@@ -7,7 +7,7 @@ import BoardContent from 'components/BoardContent/BoardContent';
 
 function App() {
   return (
-    <div className="clone-trello-container">
+    <div className='clone-trello-container'>
       <AppBar />
       <BoardBar />
       <BoardContent />
