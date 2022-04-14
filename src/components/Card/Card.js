@@ -12,7 +12,7 @@ function Card(props){
                 <img src={card.cover} 
                 className="card-cover" 
                 alt="clone-trello-alt-img"
-                onMouseDown={e => e.preventDefault()}                //image space
+                onMouseDown={e => e.preventDefault()}    //image space
                 />}
         {card.title}
         </div>

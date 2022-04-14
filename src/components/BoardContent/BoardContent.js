@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { isEmpty } from 'lodash'
 import './BoardContent.scss'
 import Column from 'components/Column/Column'
@@ -13,10 +13,11 @@ function BoardBar() {
   const [board, setBoard] = useState({});
   const [columns, setColumns] = useState({});
   const [openNewColumnForm, setopenNewColumnForm] = useState(false);
+  const toggleOpenNewColumnForm = () => setopenNewColumnForm(!openNewColumnForm)
 
   const newColumnInputRef = useRef(null)
   const [newColumnTitle, setnewColumnTitle] = useState('');
-  const onNewColumnTitleChange = useCallback((e) => setnewColumnTitle(e.target.value), [])
+  const onNewColumnTitleChange = (e) => setnewColumnTitle(e.target.value)
   
   useEffect(() => {
     const boardFromDB = initialData.boards.find(
@@ -93,8 +94,6 @@ function BoardBar() {
     }   
   }
 
-  const toggleOpenNewColumnForm = () => setopenNewColumnForm(!openNewColumnForm)
-
   const addNewColumn = () => {
     if(!newColumnTitle){
       newColumnInputRef.current.focus()
@@ -116,7 +115,6 @@ function BoardBar() {
     let newBoard = {...board}
     newBoard.columnOrder = newColumns.map(c => c.id)
     newBoard.columns = newColumns
-    console.log(newBoard)
 
     setColumns(newColumns)
     setBoard(newBoard)
@@ -130,7 +128,7 @@ function BoardBar() {
           orientation='horizontal'
           onDrop={onColumnDrop}
           getChildPayload={index => columns[index]}
-          //dragHandleSelector='.column-drag-handle'
+          //dragHandleSelector='column-drag-handle'
           dropPlaceholder={{
             animationDuration: 150,
             showOnTop: true,
@@ -139,7 +137,11 @@ function BoardBar() {
         >
       {columns.map((column, index) => (
         <Draggable  key={index}>
-          <Column column={column}  onCardDrop={onCardDrop} onUpdateColumn={onUpdateColumn}/>
+          <Column 
+            column={column}  
+            onCardDrop={onCardDrop} 
+            onUpdateColumn={onUpdateColumn}
+          />
         </Draggable>
       ))}
       </Container>
@@ -165,7 +167,7 @@ function BoardBar() {
                 onKeyDown={event => (event.key === 'Enter') && addNewColumn()}
               />
               <Button variant="success" size="sm" onClick={addNewColumn}>Add column</Button>
-              <span className="cancel-new-column" onClick={toggleOpenNewColumnForm}>
+              <span className="cancel-icon" onClick={toggleOpenNewColumnForm}>
                 <i className="fa fa-times icon"/>
               </span>
             </Col>
